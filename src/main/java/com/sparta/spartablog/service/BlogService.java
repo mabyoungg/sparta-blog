@@ -23,7 +23,13 @@ public class BlogService {
         return blogResponseDto;
     }
 
-    public List<BlogResponseDto> GetBlogs() {
+    public List<BlogResponseDto> getBlogs() {
         return blogRepository.findAllByOrderByCreatedAtDesc().stream().map(BlogResponseDto::new).toList();
+    }
+
+    public BlogResponseDto getBlogsById(Long id) {
+        Blog getBlog = blogRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        BlogResponseDto blogResponseDto = new BlogResponseDto(getBlog);
+        return blogResponseDto;
     }
 }
