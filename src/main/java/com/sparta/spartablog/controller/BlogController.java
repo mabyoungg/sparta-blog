@@ -3,8 +3,6 @@ package com.sparta.spartablog.controller;
 import com.sparta.spartablog.dto.BlogRequestDto;
 import com.sparta.spartablog.dto.BlogResponseDto;
 import com.sparta.spartablog.service.BlogService;
-import jakarta.websocket.server.PathParam;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
