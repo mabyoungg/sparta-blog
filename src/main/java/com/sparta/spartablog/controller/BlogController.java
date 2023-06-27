@@ -29,8 +29,13 @@ public class BlogController {
     }
 
     @GetMapping("/blogs/{id}")
-    public BlogResponseDto getBlogsById(@PathVariable Long id) {
-        return blogService.getBlogsById(id);
+    public BlogResponseDto getBlogById(@PathVariable Long id) {
+        return blogService.getBlogById(id);
+    }
+
+    @PutMapping("/blogs/{id}")
+    public BlogResponseDto updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+        return blogService.updateBlog(id, requestDto);
     }
 
 }
