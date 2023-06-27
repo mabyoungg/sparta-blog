@@ -43,14 +43,23 @@ public class BlogService {
             BlogResponseDto blogResponseDto = new BlogResponseDto(getBlog);
             return blogResponseDto;
         } else {
-            BlogResponseDto blogResponseDto = new BlogResponseDto(getBlog);
-            return blogResponseDto;
+            throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
     }
 
+    public Long deleteBlog(Long id,BlogRequestDto requestDto ) {
+        Blog getBlog = findBlog(id);
+        if (getBlog.getPassword().equals(requestDto.getPassword())) {
+            blogRepository.delete(getBlog);
+            return id;
+        } else {
+            throw new IllegalArgumentException("비밀번호가 틀립니다.");
+        }
+    }
 
     private Blog findBlog(Long id) {
         return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );
     }
+
 }
