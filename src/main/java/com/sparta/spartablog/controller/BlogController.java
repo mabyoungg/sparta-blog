@@ -6,6 +6,7 @@ import com.sparta.spartablog.service.BlogService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -37,7 +38,7 @@ public class BlogController {
     }
 
     @DeleteMapping("/blogs/{id}")
-    public Long deleteBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+    public Map<String, Object> deleteBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
         return blogService.deleteBlog(id, requestDto);
     }
 

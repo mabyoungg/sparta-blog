@@ -7,7 +7,10 @@ import com.sparta.spartablog.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.HTMLWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BlogService {
@@ -47,13 +50,16 @@ public class BlogService {
         }
     }
 
-    public Long deleteBlog(Long id,BlogRequestDto requestDto ) {
+    public Map<String, Object> deleteBlog(Long id, BlogRequestDto requestDto ) {
         Blog getBlog = findBlog(id);
+        Map<String, Object> response = new HashMap<>();
         if (getBlog.getPassword().equals(requestDto.getPassword())) {
             blogRepository.delete(getBlog);
-            return id;
+            response.put("success", true);
+            return response;
         } else {
-            throw new IllegalArgumentException("비밀번호가 틀립니다.");
+            response.put("success", false);
+            return response;
         }
     }
 
