@@ -4,6 +4,7 @@ import com.sparta.spartablog.dto.BlogRequestDto;
 import com.sparta.spartablog.dto.BlogResponseDto;
 import com.sparta.spartablog.entity.Blog;
 import com.sparta.spartablog.repository.BlogRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class BlogService {
     private final BlogRepository blogRepository;
-
-    public BlogService(BlogRepository blogRepository) {
-        this.blogRepository = blogRepository;
-    }
 
     public BlogResponseDto createBlog(BlogRequestDto requestDto) {
         Blog blog = new Blog(requestDto);
