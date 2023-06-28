@@ -1,4 +1,6 @@
 # 나만의 블로그 백엔드 서버
+### 
+> /src/main/resources/application.properties 에서 Mysql url, username, password 수정 필요
 
 ### Use Case
 ![use_case](https://github.com/mabyoungg/sparta-blog/assets/131260371/e44d942b-82e7-44cc-8b80-7f6dfac18c4c)
