@@ -20,8 +20,7 @@ public class PostService {
     public PostResponseDto createPost(PostRequestDto requestDto) {
         Post post = new Post(requestDto);
         Post savePost = postRepository.save(post);
-        PostResponseDto postResponseDto = new PostResponseDto(savePost);
-        return postResponseDto;
+        return new PostResponseDto(savePost);
     }
 
     public List<PostResponseDto> getPosts() {
@@ -30,8 +29,7 @@ public class PostService {
 
     public PostResponseDto getPostById(Long id) {
         Post getPost = findPost(id);
-        PostResponseDto postResponseDto = new PostResponseDto(getPost);
-        return postResponseDto;
+        return new PostResponseDto(getPost);
     }
 
     @Transactional
@@ -39,8 +37,7 @@ public class PostService {
         Post getPost = findPost(id);
         if (getPost.getPassword().equals(requestDto.getPassword())) {
             getPost.update(requestDto);
-            PostResponseDto postResponseDto = new PostResponseDto(getPost);
-            return postResponseDto;
+            return new PostResponseDto(getPost);
         } else {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
