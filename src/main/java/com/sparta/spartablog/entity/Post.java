@@ -1,6 +1,6 @@
 package com.sparta.spartablog.entity;
 
-import com.sparta.spartablog.dto.BlogRequestDto;
+import com.sparta.spartablog.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "blogs")
+@Table(name = "post")
 @NoArgsConstructor
-public class Blog extends Timestamped {
+public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,14 +25,14 @@ public class Blog extends Timestamped {
     private String password;
 
 
-    public Blog(BlogRequestDto requestDto) {
+    public Post(PostRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.password = requestDto.getPassword();
     }
 
-    public void update(BlogRequestDto requestDto) {
+    public void update(PostRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
