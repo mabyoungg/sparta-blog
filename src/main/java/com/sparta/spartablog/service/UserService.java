@@ -4,6 +4,7 @@ import com.sparta.spartablog.dto.SignRequestDto;
 import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,14 +12,16 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public SignResponseDto signup(SignRequestDto requestDto) {
         String username = requestDto.getUsername();
-        String password = requestDto.getPassword();
+        String password = passwordEncoder.encode(requestDto.getPassword());
         String email = requestDto.getEmail();
 
         Optional<User> checkUsername = userRepository.findByUsername(username);
