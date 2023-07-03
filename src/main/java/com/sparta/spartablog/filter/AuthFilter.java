@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
         String url = httpServletRequest.getRequestURI();
 
         if (StringUtils.hasText(url) &&
-                (url.startsWith("/api/user") || url.startsWith("/api/posts"))
+                (url.startsWith("/api/user") || (url.startsWith("/api/posts") && httpServletRequest.getMethod().equals("GET")))
         ) {
             chain.doFilter(request, response);
         } else {
