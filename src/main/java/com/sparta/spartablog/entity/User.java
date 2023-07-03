@@ -18,12 +18,9 @@ public class User {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
 
-    public User(String username, String password, String email) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.email = email;
     }
 }

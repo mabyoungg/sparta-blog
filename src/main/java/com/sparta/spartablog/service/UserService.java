@@ -29,19 +29,13 @@ public class UserService {
     public SignResponseDto signup(SignRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
-        String email = requestDto.getEmail();
 
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자가 존재");
         }
 
-        Optional<User> checkEmail = userRepository.findByEmail(email);
-        if (checkEmail.isPresent()) {
-            throw new IllegalArgumentException("중복된 이메일 존재");
-        }
-
-        User user = new User(username, password, email);
+        User user = new User(username, password);
         userRepository.save(user);
 
         return new SignResponseDto(user);
