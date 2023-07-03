@@ -5,6 +5,7 @@ import com.sparta.spartablog.dto.SignRequestDto;
 import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public SignResponseDto signup(@RequestBody SignRequestDto requestDto) {
+    public SignResponseDto signup(@RequestBody @Valid SignRequestDto requestDto) {
         return userService.signup(requestDto);
     }
 
