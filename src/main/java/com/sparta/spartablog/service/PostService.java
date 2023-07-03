@@ -3,7 +3,9 @@ package com.sparta.spartablog.service;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
+import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.repository.PostRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,27 +36,23 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
         Post getPost = findPost(id);
-        if (getPost.getPassword().equals(requestDto.getPassword())) {
-            getPost.update(requestDto);
-            return new PostResponseDto(getPost);
-        } else {
-            throw new IllegalArgumentException("비밀번호가 틀립니다.");
-        }
+        User user = (User) req.getAttribute("user");
+        checkUser(getPost.getUsername(), user.getUsername());
+        getPost.update(requestDto);
+        return new PostResponseDto(getPost);
     }
 
-    public Map<String, Object> deletePost(Long id, PostRequestDto requestDto ) {
+    public Map<String, Object> deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
+        User user = (User) req.getAttribute("user");
         Map<String, Object> response = new HashMap<>();
-        if (getPost.getPassword().equals(requestDto.getPassword())) {
-            postRepository.delete(getPost);
-            response.put("success", true);
-            return response;
-        } else {
-            response.put("success", false);
-            return response;
-        }
+        checkUser(getPost.getUsername(), user.getUsername());
+
+        postRepository.delete(getPost);
+        response.put("success", true);
+        return response;
     }
 
     private Post findPost(Long id) {
@@ -61,4 +60,9 @@ public class PostService {
         );
     }
 
+    private void checkUser (String postUsername, String loginUsername) {
+        if (!Objects.equals(postUsername, loginUsername)) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
+    }
 }
