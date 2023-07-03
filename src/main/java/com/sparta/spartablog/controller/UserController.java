@@ -1,8 +1,10 @@
 package com.sparta.spartablog.controller;
 
+import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
 import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,4 +26,8 @@ public class UserController {
         return userService.signup(requestDto);
     }
 
+    @PostMapping("/user/login")
+    public SignResponseDto login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
+        return userService.login(requestDto, res);
+    }
 }
