@@ -20,8 +20,12 @@ import java.util.Objects;
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostResponseDto createPost(PostRequestDto requestDto) {
+    public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest req) {
         Post post = new Post(requestDto);
+        User user = (User) req.getAttribute("user");
+
+        post.setUsername(user.getUsername());
+
         Post savePost = postRepository.save(post);
         return new PostResponseDto(savePost);
     }
