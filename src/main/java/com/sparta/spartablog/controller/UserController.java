@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public SignResponseDto login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        return userService.login(requestDto, res);
+    public void login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
+        userService.login(requestDto, res);
     }
 }
