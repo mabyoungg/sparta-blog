@@ -7,6 +7,7 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,9 +57,14 @@ public class UserService {
         }
 
         String token = jwtUtil.createToken(user.getUsername());
+
+//        헤더 추가
+//        HttpHeaders header = new HttpHeaders();
+//        header.add("Authorization",token);
+
         jwtUtil.addJwtToCookie(token, res);
 
         CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "로그인 성공");
-        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(commonResponseDto,HttpStatus.OK);
     }
 }
