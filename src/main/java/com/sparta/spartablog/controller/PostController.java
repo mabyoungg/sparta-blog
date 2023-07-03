@@ -6,6 +6,7 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{id}")
-    public Map<String, Object> deletePost(@PathVariable Long id, HttpServletRequest req) {
+    public ResponseEntity deletePost(@PathVariable Long id, HttpServletRequest req) {
         return postService.deletePost(id, req);
     }
 

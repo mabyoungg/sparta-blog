@@ -6,6 +6,7 @@ import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public SignResponseDto signup(@RequestBody @Valid SignRequestDto requestDto) {
+    public ResponseEntity signup(@RequestBody @Valid SignRequestDto requestDto) {
         return userService.signup(requestDto);
     }
 
     @PostMapping("/user/login")
-    public void login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        userService.login(requestDto, res);
+    public ResponseEntity login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
+        return userService.login(requestDto, res);
     }
 }

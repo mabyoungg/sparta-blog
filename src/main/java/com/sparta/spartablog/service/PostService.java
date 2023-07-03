@@ -7,6 +7,8 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.repository.PostRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,15 +50,14 @@ public class PostService {
         return new PostResponseDto(getPost);
     }
 
-    public Map<String, Object> deletePost(Long id, HttpServletRequest req) {
+    public ResponseEntity deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
         User user = (User) req.getAttribute("user");
-        Map<String, Object> response = new HashMap<>();
         checkUser(getPost.getUsername(), user.getUsername());
 
         postRepository.delete(getPost);
-        response.put("success", true);
-        return response;
+
+        return new ResponseEntity<>("게시글 삭제 성공",HttpStatus.OK);
     }
 
     private Post findPost(Long id) {
