@@ -1,8 +1,8 @@
 package com.sparta.spartablog.service;
 
+import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
-import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.repository.UserRepository;
@@ -28,7 +28,7 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResponseEntity signup(SignRequestDto requestDto) {
+    public ResponseEntity<CommonResponseDto> signup(SignRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -40,10 +40,11 @@ public class UserService {
         User user = new User(username, password);
         userRepository.save(user);
 
-        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
+        CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "회원 가입 성공");
+        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity login(LoginRequestDto requestDto, HttpServletResponse res) {
+    public ResponseEntity<CommonResponseDto> login(LoginRequestDto requestDto, HttpServletResponse res) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
@@ -57,6 +58,7 @@ public class UserService {
         String token = jwtUtil.createToken(user.getUsername());
         jwtUtil.addJwtToCookie(token, res);
 
-        return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+        CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "로그인 성공");
+        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
     }
 }

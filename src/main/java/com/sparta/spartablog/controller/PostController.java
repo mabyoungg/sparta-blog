@@ -1,5 +1,6 @@
 package com.sparta.spartablog.controller;
 
+import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.User;
@@ -39,7 +40,7 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity deletePost(@PathVariable Long id, HttpServletRequest req) {
+    public ResponseEntity<CommonResponseDto> deletePost(@PathVariable Long id, HttpServletRequest req) {
         return postService.deletePost(id, req);
     }
 

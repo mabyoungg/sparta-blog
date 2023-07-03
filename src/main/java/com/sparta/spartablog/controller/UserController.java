@@ -1,8 +1,8 @@
 package com.sparta.spartablog.controller;
 
+import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
-import com.sparta.spartablog.dto.SignResponseDto;
 import com.sparta.spartablog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public ResponseEntity signup(@RequestBody @Valid SignRequestDto requestDto) {
+    public ResponseEntity<CommonResponseDto> signup(@RequestBody @Valid SignRequestDto requestDto) {
         return userService.signup(requestDto);
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
+    public ResponseEntity<CommonResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
         return userService.login(requestDto, res);
     }
 }

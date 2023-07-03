@@ -1,5 +1,6 @@
 package com.sparta.spartablog.service;
 
+import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
@@ -12,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -50,14 +49,15 @@ public class PostService {
         return new PostResponseDto(getPost);
     }
 
-    public ResponseEntity deletePost(Long id, HttpServletRequest req) {
+    public ResponseEntity<CommonResponseDto> deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
         User user = (User) req.getAttribute("user");
         checkUser(getPost.getUsername(), user.getUsername());
 
         postRepository.delete(getPost);
 
-        return new ResponseEntity<>("게시글 삭제 성공",HttpStatus.OK);
+        CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "게시글 삭제 성공");
+        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
     }
 
     private Post findPost(Long id) {
