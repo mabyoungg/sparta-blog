@@ -36,7 +36,8 @@ public class AuthFilter implements Filter {
         ) {
             chain.doFilter(request, response);
         } else {
-            String tokenValue = jwtUtil.getTokenFromRequest(httpServletRequest);
+//            String tokenValue = jwtUtil.getTokenFromRequest(httpServletRequest);
+            String tokenValue = httpServletRequest.getHeader(JwtUtil.AUTHORIZATION_HEADER);
 
             if (StringUtils.hasText(tokenValue)) {
                 String token = jwtUtil.substringToken(tokenValue);
