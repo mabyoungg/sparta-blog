@@ -58,13 +58,9 @@ public class UserService {
 
         String token = jwtUtil.createToken(user.getUsername());
 
-//        헤더 추가
-        HttpHeaders header = new HttpHeaders();
-        header.add(JwtUtil.AUTHORIZATION_HEADER,token);
-
-//        jwtUtil.addJwtToCookie(token, res);
+        res.addHeader(JwtUtil.AUTHORIZATION_HEADER,token);
 
         CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "로그인 성공");
-        return new ResponseEntity<>(commonResponseDto,header,HttpStatus.OK);
+        return new ResponseEntity<>(commonResponseDto,HttpStatus.OK);
     }
 }
