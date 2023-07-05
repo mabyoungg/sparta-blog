@@ -7,6 +7,7 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,8 @@ public class PostController {
 
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<CommonResponseDto> deletePost(@PathVariable Long id, HttpServletRequest req) {
-        return postService.deletePost(id, req);
-    }
+        postService.deletePost(id, req);
 
+        return  ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.CREATED.value(),"게시글 삭제 성공"));
+    }
 }

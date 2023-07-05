@@ -49,15 +49,12 @@ public class PostService {
         return new PostResponseDto(getPost);
     }
 
-    public ResponseEntity<CommonResponseDto> deletePost(Long id, HttpServletRequest req) {
+    public void deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
         User user = (User) req.getAttribute("user");
         checkUser(getPost.getUsername(), user.getUsername());
 
         postRepository.delete(getPost);
-
-        CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "게시글 삭제 성공");
-        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
     }
 
     private Post findPost(Long id) {
