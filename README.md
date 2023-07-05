@@ -3,7 +3,35 @@
 > /src/main/resources/application.properties 에서 Mysql url, username, password 수정 필요
 
 ### Use Case
+#### 입문
+
+<details>
+<summary><b>자세히</b></summary>
+<div markdown="1">
+
 ![use_case](https://github.com/mabyoungg/sparta-blog/assets/131260371/e44d942b-82e7-44cc-8b80-7f6dfac18c4c)
+
+</div>
+</details>
+
+#### 숙련
+
+<details>
+<summary><b>자세히</b></summary>
+<div markdown="1">
+예정
+</div>
+</details>
+
+#### 심화
+
+<details>
+<summary><b>자세히</b></summary>
+<div markdown="1">
+예정
+</div>
+</details>
+
 
 -------------------------------------------------
 ### 요구 사항
