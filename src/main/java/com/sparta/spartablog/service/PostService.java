@@ -1,24 +1,32 @@
 package com.sparta.spartablog.service;
 
+import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
+import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.repository.PostRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostResponseDto createPost(PostRequestDto requestDto) {
+    public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest req) {
         Post post = new Post(requestDto);
+        User user = (User) req.getAttribute("user");
+
+        post.setUsername(user.getUsername());
+
         Post savePost = postRepository.save(post);
         return new PostResponseDto(savePost);
     }
@@ -33,27 +41,23 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
         Post getPost = findPost(id);
-        if (getPost.getPassword().equals(requestDto.getPassword())) {
-            getPost.update(requestDto);
-            return new PostResponseDto(getPost);
-        } else {
-            throw new IllegalArgumentException("비밀번호가 틀립니다.");
-        }
+        User user = (User) req.getAttribute("user");
+        checkUser(getPost.getUsername(), user.getUsername());
+        getPost.update(requestDto);
+        return new PostResponseDto(getPost);
     }
 
-    public Map<String, Object> deletePost(Long id, PostRequestDto requestDto ) {
+    public ResponseEntity<CommonResponseDto> deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
-        Map<String, Object> response = new HashMap<>();
-        if (getPost.getPassword().equals(requestDto.getPassword())) {
-            postRepository.delete(getPost);
-            response.put("success", true);
-            return response;
-        } else {
-            response.put("success", false);
-            return response;
-        }
+        User user = (User) req.getAttribute("user");
+        checkUser(getPost.getUsername(), user.getUsername());
+
+        postRepository.delete(getPost);
+
+        CommonResponseDto commonResponseDto = new CommonResponseDto(HttpStatus.OK.value(), "게시글 삭제 성공");
+        return new ResponseEntity<>(commonResponseDto, HttpStatus.OK);
     }
 
     private Post findPost(Long id) {
@@ -61,4 +65,9 @@ public class PostService {
         );
     }
 
+    private void checkUser (String postUsername, String loginUsername) {
+        if (!Objects.equals(postUsername, loginUsername)) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
+    }
 }

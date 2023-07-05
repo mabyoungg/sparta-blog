@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "post")
+@Table(name = "posts")
 @NoArgsConstructor
 public class Post extends Timestamped {
     @Id
@@ -21,19 +21,14 @@ public class Post extends Timestamped {
     private String title;
     @Column(name = "contents", nullable = false)
     private String contents;
-    @Column(name = "password", nullable = false)
-    private String password;
 
 
     public Post(PostRequestDto requestDto) {
-        this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.password = requestDto.getPassword();
     }
 
     public void update(PostRequestDto requestDto) {
-        this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
