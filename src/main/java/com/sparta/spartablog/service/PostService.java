@@ -1,6 +1,5 @@
 package com.sparta.spartablog.service;
 
-import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
@@ -8,8 +7,6 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.repository.PostRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
