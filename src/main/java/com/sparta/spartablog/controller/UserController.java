@@ -3,6 +3,7 @@ package com.sparta.spartablog.controller;
 import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
+import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,9 +36,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     public ResponseEntity<CommonResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        userService.login(requestDto);
-
-        res.addHeader(JwtUtil.AUTHORIZATION_HEADER,jwtUtil.createToken(requestDto.getUsername()));
+        userService.login(requestDto, res);
 
         return ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.CREATED.value(),"로그인 성공"));
     }
