@@ -4,6 +4,7 @@ import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
 import com.sparta.spartablog.entity.User;
+import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.repository.PostRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,11 @@ public class PostService {
     public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
         Post getPost = findPost(id);
         User user = (User) req.getAttribute("user");
-        checkUser(getPost.getUsername(), user.getUsername());
+
+        if (user.getRole().equals(UserRoleEnum.USER)) {
+            checkUser(getPost.getUsername(), user.getUsername());
+        }
+
         getPost.update(requestDto);
         return new PostResponseDto(getPost);
     }
@@ -49,7 +54,10 @@ public class PostService {
     public void deletePost(Long id, HttpServletRequest req) {
         Post getPost = findPost(id);
         User user = (User) req.getAttribute("user");
-        checkUser(getPost.getUsername(), user.getUsername());
+
+        if (user.getRole().equals(UserRoleEnum.USER)) {
+            checkUser(getPost.getUsername(), user.getUsername());
+        }
 
         postRepository.delete(getPost);
     }
@@ -64,4 +72,6 @@ public class PostService {
             throw new IllegalArgumentException("작성자가 아닙니다.");
         }
     }
+
+
 }
