@@ -4,6 +4,7 @@ import com.sparta.spartablog.dto.CommentRequestDto;
 import com.sparta.spartablog.dto.CommentResponseDto;
 import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Comment;
+import com.sparta.spartablog.entity.Post;
 import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.exception.PermissionException;
@@ -22,10 +23,11 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto, HttpServletRequest req) {
-        Comment comment = new Comment(requestDto);
         User user = (User) req.getAttribute("user");
+        Post post = findPost(postId);
 
-        checkPost(postId);
+        Comment comment = new Comment(requestDto, user, post);
+
 
         comment.setUsername(user.getUsername());
         Comment saveComment = commentRepository.save(comment);
@@ -39,7 +41,7 @@ public class CommentService {
         Comment getComment = findComment(commentId);
         User user = (User) req.getAttribute("user");
 
-        checkPost(postId);
+        findPost(postId);
 
         if (user.getRole().equals(UserRoleEnum.USER)) {
             checkUser(getComment.getUsername(), user.getUsername());
@@ -52,7 +54,7 @@ public class CommentService {
     public void deleteComment(Long postId, Long commentId, HttpServletRequest req) {
         Comment getComment = findComment(commentId);
         User user = (User) req.getAttribute("user");
-        checkPost(postId);
+        findPost(postId);
 
         if (user.getRole().equals(UserRoleEnum.USER)) {
             checkUser(getComment.getUsername(), user.getUsername());
@@ -72,8 +74,8 @@ public class CommentService {
         return commentRepository.findById(commentId).orElseThrow(()->new IllegalArgumentException("댓글이 존재하지 않습니다."));
     }
 
-    private void checkPost(Long postId) {
-        postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시글이 존재하지 않습니다."));
+    private Post findPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시글이 존재하지 않습니다."));
     }
 
 

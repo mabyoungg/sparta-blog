@@ -21,8 +21,8 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest req) {
-        Post post = new Post(requestDto);
         User user = (User) req.getAttribute("user");
+        Post post = new Post(requestDto, user);
 
         post.setUsername(user.getUsername());
 
