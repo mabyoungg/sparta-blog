@@ -28,12 +28,12 @@ public class Post extends Timestamped {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    @OneToMany(mappedBy = "post")
-//    private List<Comment> commentList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
 
 
     public Post(PostRequestDto requestDto) {
