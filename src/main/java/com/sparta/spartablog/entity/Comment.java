@@ -23,7 +23,19 @@ public class Comment extends Timestamped{
     @Column(name = "contents")
     private String contents;
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "post_id")
+//    private Post post;
+
     public Comment(CommentRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+    }
+
+    public void update(CommentRequestDto requestDto) {
         this.contents = requestDto.getContents();
     }
 }
