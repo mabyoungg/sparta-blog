@@ -48,6 +48,18 @@ public class CommentService {
         return new CommentResponseDto(getComment);
     }
 
+    public void deleteComment(Long postId, Long commentId, HttpServletRequest req) {
+        Comment getComment = findComment(commentId);
+        User user = (User) req.getAttribute("user");
+        checkPost(postId);
+
+        if (user.getRole().equals(UserRoleEnum.USER)) {
+            checkUser(getComment.getUsername(), user.getUsername());
+        }
+
+        commentRepository.delete(getComment);
+    }
+
 
     private void checkUser (String commentUsername, String loginUsername) {
         if (!Objects.equals(commentUsername, loginUsername)) {
@@ -62,4 +74,6 @@ public class CommentService {
     private void checkPost(Long postId) {
         postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("게시글이 존재하지 않습니다."));
     }
+
+
 }
