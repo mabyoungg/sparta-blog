@@ -4,6 +4,8 @@ import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
 import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.entity.UserRoleEnum;
+import com.sparta.spartablog.exception.UsernameDuplicationException;
+import com.sparta.spartablog.exception.LoginFailException;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +31,7 @@ public class UserService {
 
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            throw new UsernameDuplicationException("중복된 username 입니다.");
         }
 
 
@@ -50,10 +52,10 @@ public class UserService {
         String password = requestDto.getPassword();
 
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new IllegalArgumentException("등록된 사용자가 없습니다."));
+                () -> new LoginFailException("회원을 찾을 수 없습니다."));
 
         if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new LoginFailException("회원을 찾을 수 없습니다.");
         }
 
         res.addHeader(JwtUtil.AUTHORIZATION_HEADER,jwtUtil.createToken(requestDto.getUsername(), user.getRole()));

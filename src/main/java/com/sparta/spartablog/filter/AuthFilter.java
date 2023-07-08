@@ -1,6 +1,7 @@
 package com.sparta.spartablog.filter;
 
 import com.sparta.spartablog.entity.User;
+import com.sparta.spartablog.exception.jwtTokenNotAvailableException;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @Slf4j(topic = "AuthFilter")
 @Component
-@Order(1)
+@Order(2)
 public class AuthFilter implements Filter {
 
     private final UserRepository userRepository;
@@ -42,8 +43,9 @@ public class AuthFilter implements Filter {
             if (StringUtils.hasText(tokenValue)) {
                 String token = jwtUtil.substringToken(tokenValue);
 
+
                 if (!jwtUtil.validateToken(token)) {
-                    throw new IllegalArgumentException("Token Error");
+                    throw new jwtTokenNotAvailableException("토큰이 유효하지 않습니다.");
                 }
 
                 Claims info = jwtUtil.getUserInfoFromToken(token);

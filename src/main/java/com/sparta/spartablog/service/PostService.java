@@ -5,6 +5,7 @@ import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Post;
 import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.entity.UserRoleEnum;
+import com.sparta.spartablog.exception.PermissionException;
 import com.sparta.spartablog.repository.PostRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,7 @@ public class PostService {
 
     private void checkUser (String postUsername, String loginUsername) {
         if (!Objects.equals(postUsername, loginUsername)) {
-            throw new IllegalArgumentException("작성자가 아닙니다.");
+            throw new PermissionException("작성자만 삭제/수정할 수 있습니다.");
         }
     }
 
