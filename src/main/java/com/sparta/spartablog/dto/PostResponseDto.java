@@ -1,10 +1,12 @@
 package com.sparta.spartablog.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sparta.spartablog.entity.Comment;
 import com.sparta.spartablog.entity.Post;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -21,6 +23,6 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.createdAt = post.getCreatedAt();
-        this.commetList = post.getCommentList().stream().map(CommentResponseDto::new).toList();
+        this.commetList = post.getCommentList().stream().sorted(Comparator.comparing(Comment::getCreatedAt).reversed()).map(CommentResponseDto::new).toList();
     }
 }
