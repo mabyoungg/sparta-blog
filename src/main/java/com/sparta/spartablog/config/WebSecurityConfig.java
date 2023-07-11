@@ -1,7 +1,7 @@
 package com.sparta.spartablog.config;
 
-import com.sparta.spartablog.jwt.JwtAuthorizationFilter;
 import com.sparta.spartablog.jwt.JwtAuthenticationFilter;
+import com.sparta.spartablog.jwt.JwtAuthorizationFilter;
 import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.security.UserDetailsServiceImpl;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;

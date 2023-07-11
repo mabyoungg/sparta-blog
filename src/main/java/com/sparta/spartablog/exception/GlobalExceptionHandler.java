@@ -22,11 +22,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.BAD_REQUEST.value(),ex.getMessage()));
     }
 
-    @ExceptionHandler({LoginFailException.class})
-    public ResponseEntity<CommonResponseDto> LoginFailException(LoginFailException ex) {
-        log.error(ex.getMessage());
-        return ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.BAD_REQUEST.value(),ex.getMessage()));
-    }
 
 
 //    @ExceptionHandler({AuthFilterException.class})

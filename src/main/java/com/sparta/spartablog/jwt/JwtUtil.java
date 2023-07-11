@@ -1,7 +1,6 @@
 package com.sparta.spartablog.jwt;
 
 import com.sparta.spartablog.entity.UserRoleEnum;
-import com.sparta.spartablog.exception.jwtTokenNotAvailableException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

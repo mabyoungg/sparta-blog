@@ -8,7 +8,6 @@ import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.exception.PermissionException;
 import com.sparta.spartablog.repository.PostRepository;
 import com.sparta.spartablog.security.UserDetailsImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

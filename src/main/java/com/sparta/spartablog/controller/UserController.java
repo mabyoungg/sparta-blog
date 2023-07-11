@@ -1,11 +1,8 @@
 package com.sparta.spartablog.controller;
 
 import com.sparta.spartablog.dto.CommonResponseDto;
-import com.sparta.spartablog.dto.LoginRequestDto;
 import com.sparta.spartablog.dto.SignRequestDto;
-import com.sparta.spartablog.jwt.JwtUtil;
 import com.sparta.spartablog.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

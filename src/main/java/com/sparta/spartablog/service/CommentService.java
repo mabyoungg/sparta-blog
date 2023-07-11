@@ -2,7 +2,6 @@ package com.sparta.spartablog.service;
 
 import com.sparta.spartablog.dto.CommentRequestDto;
 import com.sparta.spartablog.dto.CommentResponseDto;
-import com.sparta.spartablog.dto.PostResponseDto;
 import com.sparta.spartablog.entity.Comment;
 import com.sparta.spartablog.entity.Post;
 import com.sparta.spartablog.entity.User;
@@ -11,7 +10,6 @@ import com.sparta.spartablog.exception.PermissionException;
 import com.sparta.spartablog.repository.CommentRepository;
 import com.sparta.spartablog.repository.PostRepository;
 import com.sparta.spartablog.security.UserDetailsImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
