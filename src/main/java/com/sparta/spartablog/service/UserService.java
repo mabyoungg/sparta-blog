@@ -47,18 +47,18 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
-        String username = requestDto.getUsername();
-        String password = requestDto.getPassword();
-
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new LoginFailException("회원을 찾을 수 없습니다."));
-
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new LoginFailException("회원을 찾을 수 없습니다.");
-        }
-
-        res.addHeader(JwtUtil.AUTHORIZATION_HEADER,jwtUtil.createToken(requestDto.getUsername(), user.getRole()));
-
-    }
+//    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
+//        String username = requestDto.getUsername();
+//        String password = requestDto.getPassword();
+//
+//        User user = userRepository.findByUsername(username).orElseThrow(
+//                () -> new LoginFailException("회원을 찾을 수 없습니다."));
+//
+//        if(!passwordEncoder.matches(password, user.getPassword())) {
+//            throw new LoginFailException("회원을 찾을 수 없습니다.");
+//        }
+//
+//        res.addHeader(JwtUtil.AUTHORIZATION_HEADER,jwtUtil.createToken(requestDto.getUsername(), user.getRole()));
+//
+//    }
 }

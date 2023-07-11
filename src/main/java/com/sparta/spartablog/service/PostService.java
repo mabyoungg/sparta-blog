@@ -7,6 +7,7 @@ import com.sparta.spartablog.entity.User;
 import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.exception.PermissionException;
 import com.sparta.spartablog.repository.PostRepository;
+import com.sparta.spartablog.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,11 @@ import java.util.Objects;
 public class PostService {
     private final PostRepository postRepository;
 
-    public PostResponseDto createPost(PostRequestDto requestDto, HttpServletRequest req) {
-        User user = (User) req.getAttribute("user");
+    public PostResponseDto createPost(PostRequestDto requestDto, UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
         Post post = new Post(requestDto, user);
 
+        System.out.println(user.getUsername());
         post.setUsername(user.getUsername());
 
         Post savePost = postRepository.save(post);
@@ -40,9 +42,9 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, HttpServletRequest req) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, UserDetailsImpl userDetails) {
         Post getPost = findPost(id);
-        User user = (User) req.getAttribute("user");
+        User user = userDetails.getUser();
 
         if (user.getRole().equals(UserRoleEnum.USER)) {
             checkUser(getPost.getUsername(), user.getUsername());
@@ -52,9 +54,9 @@ public class PostService {
         return new PostResponseDto(getPost);
     }
 
-    public void deletePost(Long id, HttpServletRequest req) {
+    public void deletePost(Long id, UserDetailsImpl userDetails) {
         Post getPost = findPost(id);
-        User user = (User) req.getAttribute("user");
+        User user = userDetails.getUser();
 
         if (user.getRole().equals(UserRoleEnum.USER)) {
             checkUser(getPost.getUsername(), user.getUsername());

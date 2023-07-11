@@ -3,11 +3,13 @@ package com.sparta.spartablog.controller;
 import com.sparta.spartablog.dto.CommonResponseDto;
 import com.sparta.spartablog.dto.PostRequestDto;
 import com.sparta.spartablog.dto.PostResponseDto;
+import com.sparta.spartablog.security.UserDetailsImpl;
 import com.sparta.spartablog.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest req) {
-        return postService.createPost(requestDto, req);
+    public PostResponseDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.createPost(requestDto, userDetails);
     }
 
     @GetMapping("/posts")
@@ -34,13 +36,13 @@ public class PostController {
     }
 
     @PutMapping("/posts/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest req) {
-        return postService.updatePost(id, requestDto, req);
+    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.updatePost(id, requestDto, userDetails);
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<CommonResponseDto> deletePost(@PathVariable Long id, HttpServletRequest req) {
-        postService.deletePost(id, req);
+    public ResponseEntity<CommonResponseDto> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.deletePost(id, userDetails);
 
         return  ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.CREATED.value(),"게시글 삭제 성공"));
     }

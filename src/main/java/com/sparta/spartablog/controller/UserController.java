@@ -28,10 +28,4 @@ public class UserController {
         return ResponseEntity.status(201).body(new CommonResponseDto(HttpStatus.CREATED.value(),"회원가입 성공"));
     }
 
-    @PostMapping("/user/login")
-    public ResponseEntity<CommonResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        userService.login(requestDto, res);
-
-        return ResponseEntity.ok().body(new CommonResponseDto(HttpStatus.CREATED.value(),"로그인 성공"));
-    }
 }

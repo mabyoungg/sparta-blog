@@ -10,6 +10,7 @@ import com.sparta.spartablog.entity.UserRoleEnum;
 import com.sparta.spartablog.exception.PermissionException;
 import com.sparta.spartablog.repository.CommentRepository;
 import com.sparta.spartablog.repository.PostRepository;
+import com.sparta.spartablog.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ import java.util.Objects;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto, HttpServletRequest req) {
-        User user = (User) req.getAttribute("user");
+    public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto, UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
         Post post = findPost(postId);
 
         Comment comment = new Comment(requestDto, user, post);
@@ -37,9 +38,9 @@ public class CommentService {
 
 
     @Transactional
-    public CommentResponseDto updateComment(Long postId, Long commentId, CommentRequestDto requestDto, HttpServletRequest req) {
+    public CommentResponseDto updateComment(Long postId, Long commentId, CommentRequestDto requestDto, UserDetailsImpl userDetails) {
         Comment getComment = findComment(commentId);
-        User user = (User) req.getAttribute("user");
+        User user = userDetails.getUser();
 
         findPost(postId);
 
@@ -51,9 +52,9 @@ public class CommentService {
         return new CommentResponseDto(getComment);
     }
 
-    public void deleteComment(Long postId, Long commentId, HttpServletRequest req) {
+    public void deleteComment(Long postId, Long commentId, UserDetailsImpl userDetails) {
         Comment getComment = findComment(commentId);
-        User user = (User) req.getAttribute("user");
+        User user = userDetails.getUser();
         findPost(postId);
 
         if (user.getRole().equals(UserRoleEnum.USER)) {
